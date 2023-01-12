@@ -1,11 +1,26 @@
-public class Wallet {
+import java.io.Serializable;
+import java.util.ArrayList;
+
+public class Wallet extends Card implements Serializable {
+
+    @Override
+    public void transferMoney(Card other,int amount) {
+        other.amount += amount;
+        this.amount-=amount;
+        this.transactions.add(new Transaction(this,amount));
+    }
+
+    @Override
+    public void spendMoney(int amount) {
+        this.amount -=amount;
+        this.transactions.add(new Transaction(this,amount));
+    }
+
     private String name;
     private int sum;
 
-    public Wallet(String name, int sum) {
-        this.name = name;
-        this.sum = sum;
-    }
+   public Wallet() {
+this.transactions = new ArrayList<>();}
 
     public String getName() {
         return name;
@@ -15,8 +30,9 @@ public class Wallet {
         return sum;
     }
 
-    public void setName(String name) {
+    public String setName(String name) {
         this.name = name;
+        return name;
     }
 
     public void setSum(int sum) {
@@ -26,7 +42,7 @@ public class Wallet {
     @Override
     public String toString() {
         return
-                "Кошелек " + name  +
-                ": сумма " + sum +" руб.";
+                " " + name  +
+                ": баланс " + this.getAmount() +" руб.";
     }
 }
